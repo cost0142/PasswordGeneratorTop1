@@ -1,14 +1,8 @@
 import { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  Modal
-} from "react-native";
+import { View, Text, StyleSheet, Image, Modal } from "react-native";
 import Slider from "@react-native-community/slider";
 import { ModalPassword } from "../../components/modal";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 export function Home({ navigation }) {
   const [size, setSize] = useState(10);
@@ -58,9 +52,7 @@ export function Home({ navigation }) {
   return (
     <View style={styles.container}>
       <Image source={require("../../../assets/logo.png")} style={styles.logo} />
-      <Text style={styles.title}>
-        {size} Caracteres
-      </Text>
+      <Text style={styles.title}>{size} Caracteres</Text>
       <View style={styles.area}>
         <Slider
           style={{ height: 50 }}
@@ -70,26 +62,39 @@ export function Home({ navigation }) {
           maximumTrackTintColor="orange"
           thumbTintColor="#392de9"
           value={size}
-          onValueChange={value => setSize(value.toFixed(0))}
+          onValueChange={(value) => setSize(value.toFixed(0))}
         />
       </View>
-      <TouchableOpacity style={styles.btn} onPress={generatePassword}>
-        <Text style={styles.textBtn}>Generate password</Text>
-      </TouchableOpacity>
+      <View style={{ flexDirection: "column" }}>
+        <TouchableOpacity style={styles.btn} onPress={generatePassword}>
+          <Text style={styles.textBtn}>Generate password</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.btn, { backgroundColor: "red", marginTop: 30 }]}
+          onPress={handleLogout}
+        >
+          <Text style={styles.textBtn}>Logout</Text>
+        </TouchableOpacity>
+      </View>
       <Modal visible={modalVisible} animationType="fade" transparent={true}>
         <ModalPassword
           password={passwordValue}
           handleClose={() => setModalVisible(false)}
         />
       </Modal>
-      <TouchableOpacity style={styles.logoutBtn} onPress={handleLogout}>
-        <Text style={styles.logoutText}>Logout</Text>
-      </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  logoutBtn: {
+    marginTop: 40,
+    backgroundColor: "#ff0000",
+    padding: 15,
+    borderRadius: 8,
+    alignItems: "center",
+    width: "80%"
+  },
   container: {
     flex: 1,
     backgroundColor: "#F3F3FF",
@@ -108,7 +113,7 @@ const styles = StyleSheet.create({
   },
   btn: {
     backgroundColor: "#392de9",
-    width: "80%",
+    width: "100%",
     padding: 15,
     borderRadius: 8,
     alignItems: "center",

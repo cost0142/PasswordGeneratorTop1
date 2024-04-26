@@ -1,17 +1,10 @@
 import { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  Modal,
-  FlatList
-} from "react-native";
+import { View, Text, StyleSheet, Image, Modal, FlatList } from "react-native";
 import { SafeAreaView } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import useStorage from "../../hooks/useStorage";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 import { PasswordItem } from "./Components/PasswordItem";
 

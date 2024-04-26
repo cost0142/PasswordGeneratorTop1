@@ -1,12 +1,7 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Pressable
-} from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import * as Clipboard from "expo-clipboard";
 import useStorage from "../../hooks/useStorage";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 export function ModalPassword({ password, handleClose }) {
   const { saveItems } = useStorage();
@@ -28,9 +23,7 @@ export function ModalPassword({ password, handleClose }) {
           style={styles.innerPassword}
           onLongPress={handleCopyPassword}
         >
-          <Text style={styles.text}>
-            {password}
-          </Text>
+          <Text style={styles.text}>{password}</Text>
         </Pressable>
         <View style={styles.btnArea}>
           <TouchableOpacity style={styles.btn} onPress={handleClose}>
@@ -122,7 +115,6 @@ const styles = StyleSheet.create({
     paddingTop: 15
   },
   btn: {
-    flex: 1,
     alignItems: "center",
     marginBottom: 14,
     marginTop: 14,

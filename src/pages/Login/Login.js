@@ -8,12 +8,12 @@ import {
   Alert,
   Image,
   KeyboardAvoidingView,
-  Platform,
-  TouchableOpacity
+  Platform
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect } from "@react-navigation/native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 export function Login({ route, navigation }) {
   const [password, setPassword] = useState("");
@@ -32,24 +32,22 @@ export function Login({ route, navigation }) {
       setPasswordExists(!!storedPassword);
       setCreateMode(!storedPassword);
     };
-  
+
     checkPasswordSet();
   }, []);
 
-  console.log(passwordVisibility)
+  console.log(passwordVisibility);
 
   useFocusEffect(
     React.useCallback(() => {
       // Verifica se o parâmetro resetPassword foi passado e é true
       if (route.params?.resetPassword) {
-        setPassword('');
+        setPassword("");
         setPasswordVisibility(true);
       }
       // Adiciona outras lógicas de inicialização aqui se necessário
-    }, [route.params?.resetPassword])  // Dependências para reagir às mudanças nos parâmetros
+    }, [route.params?.resetPassword]) // Dependências para reagir às mudanças nos parâmetros
   );
-
-  
 
   function handleLogin() {
     AsyncStorage.getItem("userPassword").then((storedPassword) => {
@@ -165,7 +163,8 @@ export function Login({ route, navigation }) {
             <Text style={{ fontSize: 28 }}>
               {isChangingPassword ? "Change Password:" : "Create Password:"}
             </Text>
-            <View style={styles.inputContainer}>
+            {/* // hygor-------------------------- */}
+            <View style={[styles.inputContainer, {}]}>
               <TextInput
                 placeholder="New password (16 characters)"
                 value={newPassword}
@@ -260,22 +259,18 @@ export function Login({ route, navigation }) {
                   </TouchableOpacity>
                 </View>
                 {/* <Button title="Login" onPress={handleLogin} /> */}
-             
 
-<TouchableOpacity
-              onPress={handleLogin}
-              style={{
-                backgroundColor: "blue",
-                padding: 12,
-                paddingRight: 35,
-                paddingLeft: 35,
-                borderRadius: 5,
-                marginBottom: 20
-              }}
-            >
-    
-
-
+                <TouchableOpacity
+                  onPress={handleLogin}
+                  style={{
+                    backgroundColor: "blue",
+                    padding: 12,
+                    paddingRight: 35,
+                    paddingLeft: 35,
+                    borderRadius: 5,
+                    marginBottom: 20
+                  }}
+                >
                   <Text style={{ color: "white", fontSize: 20 }}>Login</Text>
                 </TouchableOpacity>
                 {passwordExists && (
@@ -285,18 +280,14 @@ export function Login({ route, navigation }) {
                   />
                 )}
                 {showResetButton && (
-
-                  
-              
-
-                     <TouchableOpacity
+                  <TouchableOpacity
                     onPress={resetAppData}
                     style={{
                       backgroundColor: "red",
                       padding: 12,
                       paddingRight: 35,
                       paddingLeft: 35,
-                      borderRadius: 5, 
+                      borderRadius: 5,
                       marginTop: 20
                     }}
                   >
@@ -304,8 +295,6 @@ export function Login({ route, navigation }) {
                       Reset the App
                     </Text>
                   </TouchableOpacity>
-
-
                 )}
               </>
             )}
@@ -327,15 +316,15 @@ const styles = StyleSheet.create({
     width: "100%"
   },
   inputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: "row", // Alinha os filhos horizontalmente
+    alignItems: "center", // Centraliza os filhos verticalmente na linha
     width: "80%",
     padding: 10,
     marginVertical: 10,
     borderWidth: 1,
     borderColor: "gray",
     borderRadius: 5,
-    position: "relative"
+    backgroundColor: "white" // Alterado de vermelho para branco para visualização normal
   },
   input: {
     flex: 1,
@@ -344,11 +333,7 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
   icon: {
-    position: "absolute",
-    right: 10,
-    height: "110%",
-    justifyContent: "center",
-    paddingHorizontal: 15
+    marginRight: 5
   },
   logo: {
     width: 100,

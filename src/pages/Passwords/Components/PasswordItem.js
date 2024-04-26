@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons"; // Exemplo de importação do pacote de ícones
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useIsFocused } from "@react-navigation/native";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 export function PasswordItem({ index, data, removePassword }) {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
