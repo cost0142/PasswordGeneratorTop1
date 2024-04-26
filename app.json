@@ -2,29 +2,38 @@
   "expo": {
     "name": "PasswordGeneratorTop1",
     "slug": "PasswordGeneratorTop1",
-    "version": "1.0.0",
+    "version": "1.1.3",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo3.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/logo3.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#3D85C6"
     },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.hygorcosta007.PasswordGenerator",
+      "buildNumber": "6"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.hygorcosta007.PasswordGeneratorTop1",
+      "versionCode": 9
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "6218feb9-4f29-4e69-9cce-2ee0d42a2d31"
+      }
     }
   }
 }
