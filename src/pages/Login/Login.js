@@ -66,7 +66,9 @@ export function Login({ route, navigation }) {
         setCreateMode(false);
         setIsChangingPassword(false);
         setPassword(newPassword);
+        setPasswordExists(true); // Assegure que este estado seja atualizado para refletir a existência de uma senha
         alert("Password created/changed successfully. Use it to log in.");
+        navigation.navigate("Main"); // Pode ser ajustado conforme a rota que você deseja direcionar após salvar
       });
     } else {
       alert("The password must have a maximum of 16 characters.");
@@ -158,19 +160,26 @@ export function Login({ route, navigation }) {
           source={require("../../../assets/logo.png")}
           style={styles.logo}
         />
-        {createMode ? (
+
+        {createMode || isChangingPassword ? (
           <>
             <Text style={{ fontSize: 28 }}>
               {isChangingPassword ? "Change Password:" : "Create Password:"}
             </Text>
-            {/* // hygor-------------------------- */}
-            <View style={[styles.inputContainer, {}]}>
+            <View style={styles.inputContainer}>
               <TextInput
-                placeholder="New password (16 characters)"
-                value={newPassword}
-                onChangeText={setNewPassword}
+                placeholder={
+                  isChangingPassword
+                    ? "Enter current password to continue"
+                    : "New password (16 characters)"
+                }
+                value={isChangingPassword ? currentPassword : newPassword}
+                onChangeText={
+                  isChangingPassword ? setCurrentPassword : setNewPassword
+                }
                 secureTextEntry={passwordVisibility}
                 style={styles.input}
+                handleCreatePassword
               />
               <TouchableOpacity
                 style={styles.icon}
@@ -185,118 +194,98 @@ export function Login({ route, navigation }) {
             </View>
 
             <TouchableOpacity
-              onPress={handleCreatePassword}
+              onPress={
+                isChangingPassword
+                  ? initiateChangePassword
+                  : handleCreatePassword
+              }
               style={{
                 backgroundColor: "blue",
                 padding: 12,
                 paddingRight: 35,
                 paddingLeft: 35,
-                borderRadius: 5
+                borderRadius: 5,
+                marginBottom: 20
               }}
             >
-              <Text style={{ color: "white", fontSize: 25 }}>Save</Text>
+              <Text style={{ color: "white", fontSize: 20 }}>
+                {isChangingPassword ? "Confirm Current Password" : "Save"}
+              </Text>
             </TouchableOpacity>
 
             {isChangingPassword && (
-              <Button title="Cancel" onPress={cancelChange} />
+              <TouchableOpacity
+                onPress={confirmCancelChange}
+                style={{
+                  backgroundColor: "orange",
+                  padding: 12,
+                  paddingRight: 35,
+                  paddingLeft: 35,
+                  borderRadius: 5,
+                  marginBottom: 20
+                }}
+              >
+                <Text style={{ color: "black", fontSize: 20 }}>Cancel</Text>
+              </TouchableOpacity>
             )}
           </>
         ) : (
           <>
-            {isChangingPassword ? (
-              <>
-                <Text style={{ fontSize: 28 }}>Change Password:</Text>
-                <View style={styles.inputContainer}>
-                  <TextInput
-                    placeholder="Enter current password to continue"
-                    value={currentPassword}
-                    onChangeText={setCurrentPassword}
-                    secureTextEntry={passwordVisibility}
-                    style={styles.input}
-                  />
-                  <TouchableOpacity
-                    style={styles.icon}
-                    onPress={() => setPasswordVisibility(!passwordVisibility)}
-                  >
-                    <Ionicons
-                      name={passwordVisibility ? "eye-off" : "eye"}
-                      size={28}
-                      color="grey"
-                    />
-                  </TouchableOpacity>
-                </View>
-                <Button
-                  title="Confirm Current Password"
-                  onPress={initiateChangePassword}
+            <View style={styles.inputContainer}>
+              <TextInput
+                placeholder="Password"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry={passwordVisibility}
+                style={styles.input}
+              />
+              <TouchableOpacity
+                style={styles.icon}
+                onPress={() => setPasswordVisibility(!passwordVisibility)}
+              >
+                <Ionicons
+                  name={passwordVisibility ? "eye-off" : "eye"}
+                  size={28}
+                  color="grey"
                 />
-                <Button
-                  title="Cancel"
-                  onPress={() => {
-                    setIsChangingPassword(false);
-                    setCurrentPassword("");
-                  }}
-                />
-              </>
-            ) : (
-              <>
-                <View style={styles.inputContainer}>
-                  <TextInput
-                    placeholder="Password"
-                    value={password}
-                    onChangeText={setPassword}
-                    secureTextEntry={passwordVisibility}
-                    style={styles.input}
-                  />
-                  <TouchableOpacity
-                    style={styles.icon}
-                    onPress={() => setPasswordVisibility(!passwordVisibility)}
-                  >
-                    <Ionicons
-                      name={passwordVisibility ? "eye-off" : "eye"}
-                      size={28}
-                      color="grey"
-                    />
-                  </TouchableOpacity>
-                </View>
-                {/* <Button title="Login" onPress={handleLogin} /> */}
-
-                <TouchableOpacity
-                  onPress={handleLogin}
-                  style={{
-                    backgroundColor: "blue",
-                    padding: 12,
-                    paddingRight: 35,
-                    paddingLeft: 35,
-                    borderRadius: 5,
-                    marginBottom: 20
-                  }}
-                >
-                  <Text style={{ color: "white", fontSize: 20 }}>Login</Text>
-                </TouchableOpacity>
-                {passwordExists && (
-                  <Button
-                    title="Change Password"
-                    onPress={handlePressChangePassword}
-                  />
-                )}
-                {showResetButton && (
-                  <TouchableOpacity
-                    onPress={resetAppData}
-                    style={{
-                      backgroundColor: "red",
-                      padding: 12,
-                      paddingRight: 35,
-                      paddingLeft: 35,
-                      borderRadius: 5,
-                      marginTop: 20
-                    }}
-                  >
-                    <Text style={{ color: "white", fontSize: 20 }}>
-                      Reset the App
-                    </Text>
-                  </TouchableOpacity>
-                )}
-              </>
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity
+              onPress={handleLogin}
+              style={{
+                backgroundColor: "blue",
+                padding: 12,
+                paddingRight: 35,
+                paddingLeft: 35,
+                borderRadius: 5,
+                marginBottom: 20
+              }}
+            >
+              <Text style={{ color: "white", fontSize: 20 }}>Login</Text>
+            </TouchableOpacity>
+            {passwordExists && (
+              <Button
+                title="Change Password"
+                onPress={handlePressChangePassword}
+                style={{ marginBottom: 20 }}
+              />
+            )}
+            {showResetButton && (
+              <TouchableOpacity
+                onPress={resetAppData}
+                style={{
+                  backgroundColor: "red",
+                  padding: 12,
+                  paddingRight: 35,
+                  paddingLeft: 35,
+                  borderRadius: 5,
+                  marginTop: 20
+                }}
+              >
+                <Text style={{ color: "white", fontSize: 20 }}>
+                  Reset the App
+                </Text>
+              </TouchableOpacity>
             )}
           </>
         )}
