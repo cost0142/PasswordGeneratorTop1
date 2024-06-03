@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import Icon from "react-native-vector-icons/MaterialIcons"; // Exemplo de importação do pacote de ícones
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useIsFocused } from "@react-navigation/native";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -10,12 +9,9 @@ export function PasswordItem({ index, data, removePassword }) {
   const [confirmCancel, setConfirmCancel] = useState(false);
   const focused = useIsFocused();
 
-  useEffect(
-    () => {
-      setConfirmCancel(false);
-    },
-    [focused]
-  );
+  useEffect(() => {
+    setConfirmCancel(false);
+  }, [focused, data]);
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
@@ -31,9 +27,7 @@ export function PasswordItem({ index, data, removePassword }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.index}>
-        {index}-
-      </Text>
+      <Text style={styles.index}>{index}-</Text>
       <Text style={styles.text} numberOfLines={1}>
         {isPasswordVisible ? data : "●".repeat(data.length)}
       </Text>
@@ -49,13 +43,15 @@ export function PasswordItem({ index, data, removePassword }) {
           />
         </TouchableOpacity>
         <TouchableOpacity onPress={handleCancelClick} style={styles.btn}>
-          {confirmCancel
-            ? <MaterialCommunityIcons name="close" color="#ff0000" size={25} />
-            : <MaterialCommunityIcons
-                name="trash-can"
-                color="#4DB1FF"
-                size={25}
-              />}
+          {confirmCancel ? (
+            <MaterialCommunityIcons name="close" color="#ff0000" size={25} />
+          ) : (
+            <MaterialCommunityIcons
+              name="trash-can"
+              color="#4DB1FF"
+              size={25}
+            />
+          )}
         </TouchableOpacity>
       </View>
     </View>
@@ -66,8 +62,8 @@ const styles = StyleSheet.create({
   index: {
     marginRight: 10,
     color: "#FFF",
-    fontSize: 16, // Adjust the size as necessary
-    fontWeight: "bold"
+    fontSize: 16,
+    fontWeight: "bold",
   },
   container: {
     backgroundColor: "#0e0e0e",
@@ -77,30 +73,30 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   text: {
     color: "#FFF",
     fontSize: 15,
     letterSpacing: 2,
-    flex: 1 // Allows text to expand or shrink while leaving space for icons
+    flex: 1,
   },
   iconsContainer: {
     flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
   },
   iconButton: {
     width: 40,
     height: 40,
     justifyContent: "center",
     alignItems: "center",
-    marginLeft: 10 // This ensures space between icons
+    marginLeft: 10,
   },
   btn: {
     width: 40,
     height: 40,
     justifyContent: "center",
     alignItems: "center",
-    marginLeft: 10
-  }
+    marginLeft: 10,
+  },
 });
