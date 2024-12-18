@@ -5,7 +5,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 export function ModalPassword({ password, handleClose }) {
   const { saveItems } = useStorage();
-
+// GitHub test
   async function handleCopyPassword() {
     await Clipboard.setStringAsync(password);
 
